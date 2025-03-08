@@ -1,6 +1,7 @@
 annotated-types==0.7.0
 anyio==4.8.0
 click==8.1.8
+dotenv==1.0.1
 exceptiongroup==1.2.2
 fastapi==0.115.11
 filelock==3.17.0
