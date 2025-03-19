@@ -37,7 +37,6 @@ class CameraAdapter:
 
 
 if __name__ == "__main__":
-    # Ejemplo de uso del adaptador de cámara
     try:
         adapter = CameraAdapter()
         image = adapter.capture_image()
