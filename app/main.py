@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.endpoints import eggs
+from app.controllers.endpoints.egg import eggs
 
 app = FastAPI(
     title="Sistema de Detección de Huevos Inviables",
