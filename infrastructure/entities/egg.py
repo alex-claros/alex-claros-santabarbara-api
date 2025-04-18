@@ -1,15 +1,10 @@
-from sqlalchemy import Column, String, Integer, Boolean, Float
-from sqlalchemy.ext.declarative import declarative_base
+from mongoengine import Document, StringField, IntField, BooleanField, FloatField, ReferenceField
 
-Base = declarative_base()
-
-class EggEntity(Base):
-    __tablename__ = "eggs"
-
-    id = Column(String, primary_key=True)
-    position = Column(Integer)  # Posición dentro del maple
-    viability = Column(Boolean)
-    image_data = Column(String)  # Almacenar la imagen como base64 o referencia
-    colorimetry = Column(Float)
-    structural_defects = Column(Boolean)
-    maple_id = Column(String)  # ID del maple al que pertenece
+class Egg(Document):
+    id = StringField(primary_key=True)  # ID único del huevo
+    position = IntField()  # Posición dentro del maple
+    viability = BooleanField()  # Viabilidad del huevo (True o False)
+    image_url = StringField()  # URL de la imagen almacenada en MinIO
+    colorimetry = FloatField()  # Valor de colorimetría
+    structural_defects = BooleanField()  # Indica si tiene defectos estructurales
+    maple = ReferenceField("Maple")  # Referencia al maple al que pertenece

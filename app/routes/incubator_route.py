@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from app.controllers.incubator_controller import IncubatorController
 from sqlalchemy.orm import sessionmaker
+from core.database import get_db_session
 
 router = APIRouter()
 

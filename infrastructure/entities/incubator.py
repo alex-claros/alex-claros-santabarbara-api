@@ -1,10 +1,9 @@
-from sqlalchemy import Column, String, Integer
-from sqlalchemy.ext.declarative import declarative_base
+from mongoengine import Document, StringField, IntField, ListField, ReferenceField
 
-Base = declarative_base()
-
-class IncubatorEntity(Base):
-    __tablename__ = "incubators"
-
-    id = Column(String, primary_key=True)
-    capacity = Column(Integer)  # Capacidad máxima de maples
+class Incubator(Document):
+    id = StringField(primary_key=True)  # ID único de la incubadora
+    name = str # Nombre reconocible de la incubadora
+    capacity = IntField()  # Capacidad máxima de maples
+    temperature = str # Temperatura ideal de la incubadora
+    last_mant = str # Ultima vez que se realizo mantenimiento
+    maples = ListField(ReferenceField("Maple"))  # Lista de maples en la incubadora

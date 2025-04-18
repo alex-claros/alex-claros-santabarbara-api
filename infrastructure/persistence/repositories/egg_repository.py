@@ -1,21 +1,19 @@
-from domain.repositories.egg_repository import EggRepository
-from infrastructure.entities.egg import EggEntity
 from sqlalchemy.orm import sessionmaker
-from domain.models.egg_model import Egg
+from domain.repositories.egg_repository import EggRepository as IEggRepository
+from infrastructure.entities.egg import EggEntity
 
-class SqlAlchemyEggRepository(EggRepository):
+class SqlAlchemyEggRepository(IEggRepository):
     def __init__(self, session: sessionmaker):
         self.session = session
 
-    def save(self, egg: Egg):
+    def save(self, egg):
         entity = EggEntity(
             id=egg.id,
             position=egg.position,
             viability=egg.viability,
-            image_data=egg.image_data,
+            image_url=egg.image_url,
             colorimetry=egg.colorimetry,
-            structural_defects=egg.structural_defects,
-            maple_id=egg.maple_id
+            structural_defects=egg.structural_defects
         )
         self.session.add(entity)
         self.session.commit()
@@ -28,8 +26,4 @@ class SqlAlchemyEggRepository(EggRepository):
 
     def find_all(self):
         entities = self.session.query(EggEntity).all()
-        return [entity.to_domain_model() for entity in entities]
-
-    def find_non_viable_eggs(self):
-        entities = self.session.query(EggEntity).filter_by(viability=False).all()
         return [entity.to_domain_model() for entity in entities]

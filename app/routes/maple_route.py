@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from app.controllers.maple_controller import MapleController
 from sqlalchemy.orm import sessionmaker
+from core.database import get_db_session
 
 router = APIRouter()
 
