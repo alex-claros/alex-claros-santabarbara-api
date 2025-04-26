@@ -9,13 +9,23 @@ class IncubatorRepository(ABC):
         pass
 
     @abstractmethod
+    def find_all(self) -> List[Incubator]:
+        """Lista todas las incubadoras."""
+        pass
+
+    @abstractmethod
     def find_by_id(self, incubator_id: str) -> Incubator:
         """Busca una incubadora por su ID."""
         pass
 
     @abstractmethod
-    def find_all(self) -> List[Incubator]:
-        """Lista todas las incubadoras."""
+    def update(self, incubator: Incubator):
+        """Actualiza una incubadora existente."""
+        pass
+
+    @abstractmethod
+    def delete(self, incubator_id: str):
+        """Elimina una incubadora por su ID."""
         pass
 
     @abstractmethod

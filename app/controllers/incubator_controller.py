@@ -1,34 +1,29 @@
-from fastapi import HTTPException
-from domain.use_cases.list_non_viable_eggs_incubator_use_case import ListNonViableEggsInIncubatorUseCase
-from domain.use_cases.add_maple_to_incubator_use_case import AddMapleToIncubatorUseCase
-from infrastructure.persistence.repositories.incubator_repository import SqlAlchemyIncubatorRepository
-from infrastructure.persistence.repositories.maple_repository import SqlAlchemyMapleRepository
-from infrastructure.persistence.repositories.egg_repository import SqlAlchemyEggRepository
-from sqlalchemy.orm import sessionmaker
+from app.use_cases.incubator.create_incubator_use_case_impl import CreateIncubatorUseCaseImpl
+from app.use_cases.incubator.update_incubator_use_case_impl import UpdateIncubatorUseCaseImpl
+from app.use_cases.incubator.add_maple_to_incubator_user_case_impl import AddMapleToIncubatorUseCaseImpl
+from app.use_cases.incubator.list_non_viable_eggs_incubator_use_case_impl import ListNonViableEggsUseCaseImpl
+from infrastructure.persistence.repositories.incubator_repository_impl import IncubatorRepositoryImpl
+from domain.models.incubator_model import Incubator
 
 class IncubatorController:
-    def __init__(self, session: sessionmaker):
-        self.session = session
+    def __init__(self):
+        self.repository = IncubatorRepositoryImpl()
+        self.create_incubator_use_case = CreateIncubatorUseCaseImpl(self.repository)
+        self.update_incubator_use_case = UpdateIncubatorUseCaseImpl(self.repository)
+        self.add_maple_use_case = AddMapleToIncubatorUseCaseImpl(self.repository)
+        self.list_non_viable_eggs_use_case = ListNonViableEggsUseCaseImpl(self.repository)
 
-    def add_maple_to_incubator(self, maple_id: str, incubator_id: str):
-        incubator_repository = SqlAlchemyIncubatorRepository(self.session)
-        maple_repository = SqlAlchemyMapleRepository(self.session)
-        use_case = AddMapleToIncubatorUseCase(incubator_repository, maple_repository)
-        
-        try:
-            result = use_case.execute(maple_id, incubator_id)
-            return result
-        except ValueError as e:
-            raise HTTPException(status_code=404, detail=str(e))
+    def list_all_incubators(self):
+        return self.repository.find_all()
 
-    def list_non_viable_eggs_in_incubator(self, incubator_id: str):
-        incubator_repository = SqlAlchemyIncubatorRepository(self.session)
-        maple_repository = SqlAlchemyMapleRepository(self.session)
-        egg_repository = SqlAlchemyEggRepository(self.session)
-        use_case = ListNonViableEggsInIncubatorUseCase(incubator_repository, maple_repository, egg_repository)
-        
-        try:
-            non_viable_eggs = use_case.execute(incubator_id)
-            return {"incubator_id": incubator_id, "non_viable_eggs": [egg.id for egg in non_viable_eggs]}
-        except ValueError as e:
-            raise HTTPException(status_code=404, detail=str(e))
+    def create_incubator(self, incubator: Incubator):
+        return self.create_incubator_use_case.execute(incubator)
+
+    def update_incubator(self, incubator_id: str, updated_data: dict):
+        return self.update_incubator_use_case.execute(incubator_id, updated_data)
+
+    def add_maple_to_incubator(self, incubator_id: str, maple: dict):
+        return self.add_maple_use_case.execute(incubator_id, maple)
+
+    def list_non_viable_eggs(self, incubator_id: str):
+        return self.list_non_viable_eggs_use_case.execute(incubator_id)

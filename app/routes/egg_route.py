@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, File, UploadFile
 from app.controllers.egg_controller import EggController
-from core.database import get_db_session
+from core.database import init_db
+from sqlalchemy.orm import sessionmaker
 
 router = APIRouter()
 
@@ -10,7 +11,7 @@ def add_egg_to_maple(
     maple_id: str,
     position: int,
     image: UploadFile = File(...),
-    session=Depends(get_db_session)
+    session=Depends(init_db)
 ):
     controller = EggController(session)
     

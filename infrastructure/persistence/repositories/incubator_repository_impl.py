@@ -1,0 +1,40 @@
+from typing import List
+from domain.repositories.incubator_repository import IncubatorRepository
+from domain.models.incubator_model import Incubator
+from infrastructure.entities.incubator_entity import IncubatorEntity
+
+class IncubatorRepositoryImpl(IncubatorRepository):
+    def save(self, incubator: Incubator):
+        entity = IncubatorEntity.from_domain_model(incubator)
+        entity.save()
+
+    def find_all(self) -> List[Incubator]:
+            entities = IncubatorEntity.objects.all()
+            return [entity.to_domain_model() for entity in entities]
+    
+    def find_by_id(self, incubator_id: str) -> Incubator:
+        entity = IncubatorEntity.objects(id=incubator_id).first()
+        if not entity:
+            raise ValueError(f"Incubadora con ID {incubator_id} no encontrada.")
+        return entity.to_domain_model()
+
+    def update(self, incubator: Incubator):
+        """Actualiza una incubadora existente."""
+        entity = IncubatorEntity.objects(id=incubator.id).first()
+        if entity:
+            entity.update(**IncubatorEntity.from_domain_model(incubator).to_mongo())
+        else:
+            raise ValueError(f"Incubadora con ID {incubator.id} no encontrada.")
+
+    def delete(self, incubator_id: str):
+        entity = IncubatorEntity.objects(id=incubator_id).first()
+        if not entity:
+            raise ValueError(f"Incubadora con ID {incubator_id} no encontrada.")
+        entity.delete()
+
+    def find_maples_in_incubator(self, incubator_id: str) -> List:
+        """Lista todos los maples en una incubadora específica."""
+        entity = IncubatorEntity.objects(id=incubator_id).first()
+        if not entity:
+            raise ValueError(f"Incubadora con ID {incubator_id} no encontrada.")
+        return [m.to_domain_model() for m in entity.maples]

@@ -1,22 +1,32 @@
 from typing import List, Optional
-from pydantic import BaseModel
 from domain.models.maple_model import Maple
 
-class Incubator(BaseModel):
-    id: str
-    capacity: int  # Número máximo de maples
-    maples: List[Maple] = []  # Lista de maples en la incubadora
+class Incubator:
+    def __init__(
+        self,
+        id: str,
+        name: str,
+        capacity: int,
+        status: str,
+        temperature: str,
+        last_mant: str,
+        maples: Optional[List[Maple]] = None
+    ):
+        """
+        Representa una incubadora en el dominio del negocio.
 
-    def add_maple(self, maple: Maple):
-        """Añade un maple a la incubadora si hay espacio."""
-        if len(self.maples) < self.capacity:
-            self.maples.append(maple)
-        else:
-            raise ValueError("La incubadora está llena.")
-
-    def get_maple_by_id(self, maple_id: str) -> Optional[Maple]:
-        """Obtiene un maple por su ID."""
-        for maple in self.maples:
-            if maple.id == maple_id:
-                return maple
-        return None
+        :param id: ID único de la incubadora.
+        :param name: Nombre reconocible de la incubadora.
+        :param capacity: Capacidad máxima de maples.
+        :param status: Estado actual de la incubadora (funcionamiento, disponible, etc.).
+        :param temperature: Temperatura ideal de la incubadora.
+        :param last_mant: Última vez que se realizó mantenimiento.
+        :param maples: Lista de maples asociados a la incubadora.
+        """
+        self.id = id
+        self.name = name
+        self.capacity = capacity
+        self.status = status
+        self.temperature = temperature
+        self.last_mant = last_mant
+        self.maples = maples or []

@@ -27,20 +27,18 @@ services:
       MINIO_ROOT_PASSWORD: minioadmin
     command: server /data --console-address ":9001"
 
-  # Servicio FastAPI
-  # app:
+  # Servicio API
+  # api:
   #   build: .
-  #   container_name: egg_detection_app
+  #   container_name: egg_detection_api
   #   ports:
   #     - "8000:8000"  # Puerto para la API
   #   depends_on:
   #     - db
   #     - minio
   #   environment:
-  #     DATABASE_URI: mongodb://root:example@db:27017/egg_detection_db
-  #     MINIO_ENDPOINT: http://minio:9000
-  #     MINIO_ACCESS_KEY: minioadmin
-  #     MINIO_SECRET_KEY: minioadmin
+  #     MONGO_URI: mongodb://root:example@egg_detection_mongo:27017
+  #     DATABASE_NAME: egg_viability_db
 
 volumes:
   mongo_data:

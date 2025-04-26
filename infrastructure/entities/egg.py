@@ -1,6 +1,6 @@
 from mongoengine import Document, StringField, IntField, BooleanField, FloatField, ReferenceField
 
-class Egg(Document):
+class EggEntity(Document):
     id = StringField(primary_key=True)  # ID único del huevo
     position = IntField()  # Posición dentro del maple
     viability = BooleanField()  # Viabilidad del huevo (True o False)

@@ -13,4 +13,4 @@ def startup_event():
 # Incluir rutas
 app.include_router(egg_router, prefix="/api/eggs", tags=["Eggs"])
 app.include_router(maple_router, prefix="/api/maples", tags=["Maples"])
-app.include_router(incubator_router, prefix="/api/incubators", tags=["Incubators"])
+app.include_router(incubator_router, prefix="/api", tags=["Incubators"])

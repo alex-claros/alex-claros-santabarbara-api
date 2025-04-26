@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 from domain.repositories.maple_repository import MapleRepository as IMapleRepository
-from infrastructure.entities.maple import MapleEntity
+from infrastructure.entities.maple_entity import MapleEntity
 
 class SqlAlchemyMapleRepository(IMapleRepository):
     def __init__(self, session: sessionmaker):

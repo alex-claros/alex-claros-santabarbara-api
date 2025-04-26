@@ -6,7 +6,7 @@ from infrastructure.persistence.repositories.maple_repository import SqlAlchemyM
 from infrastructure.persistence.repositories.image_repository import ImageRepository
 from infrastructure.recognition.recognition import EggRecognitionModule
 from sqlalchemy.orm import sessionmaker
-from infrastructure.entities.egg import Egg
+from infrastructure.entities.egg import EggEntity
 
 class EggController:
     def __init__(self, session: sessionmaker):
@@ -32,7 +32,7 @@ class EggController:
         try:
             image_url = self.image_repository.upload_image(image_path, f"{egg_id}.jpg")
             
-            egg = Egg(id=egg_id, position=position, image_url=image_url)
+            egg = EggEntity(id=egg_id, position=position, image_url=image_url)
             result = use_case.execute(egg, maple_id)
             return result
         except ValueError as e:
