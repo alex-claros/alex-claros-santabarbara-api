@@ -11,11 +11,7 @@ controller = IncubatorController()
 
 @router.get("/incubators/", response_model=List[IncubatorSchema])
 def list_incubators():
-    """
-    Lista todas las incubadoras.
-    """
     try:
-        # Llama al controlador para obtener todas las incubadoras
         incubators = controller.list_all_incubators()
         return incubators
     except ValueError as e:
