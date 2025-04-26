@@ -16,15 +16,16 @@ class IncubatorRepositoryImpl(IncubatorRepository):
         entity = IncubatorEntity.objects(id=incubator_id).first()
         if not entity:
             raise ValueError(f"Incubadora con ID {incubator_id} no encontrada.")
+        
         return entity.to_domain_model()
 
-    def update(self, incubator: Incubator):
-        """Actualiza una incubadora existente."""
-        entity = IncubatorEntity.objects(id=incubator.id).first()
-        if entity:
-            entity.update(**IncubatorEntity.from_domain_model(incubator).to_mongo())
-        else:
-            raise ValueError(f"Incubadora con ID {incubator.id} no encontrada.")
+    def update(self, incubator_id: str, updated_data: dict) -> bool:
+        entity = IncubatorEntity.objects(id=incubator_id).first()
+        if not entity:
+            return False
+        
+        entity.update(**updated_data)
+        return True
 
     def delete(self, incubator_id: str):
         entity = IncubatorEntity.objects(id=incubator_id).first()

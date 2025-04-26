@@ -1,7 +1,8 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from app.controllers.incubator_controller import IncubatorController
-from infrastructure.schemas.incubator_schema import IncubatorSchema  # Modelo Pydantic para Incubator
+from infrastructure.schemas.incubator_schema import IncubatorSchema
+from infrastructure.schemas.incubator_update_schema import IncubatorUpdateSchema
 from domain.models.maple_model import Maple
 from domain.models.incubator_model import Incubator        
 
@@ -34,15 +35,13 @@ def create_incubator(incubator: IncubatorSchema):
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.put("/incubators/{incubator_id}", response_model=IncubatorSchema)
-def update_incubator(incubator_id: str, updated_data: dict):
-    """
-    Actualiza una incubadora existente.
-    """
+def update_incubator(incubator_id: str, updated_data: IncubatorUpdateSchema):
     try:
-        # Llama al controlador para actualizar la incubadora
-        incubator_domain = controller.update_incubator(incubator_id, updated_data)
-        # Retorna el resultado como un modelo Pydantic
-        return IncubatorSchema(**incubator_domain.__dict__)
+        incubator_domain = controller.update_incubator(incubator_id, updated_data.dict(exclude_unset=True))
+        
+        incubator_dict = incubator_domain.to_dict()
+        
+        return IncubatorSchema(**incubator_dict)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 

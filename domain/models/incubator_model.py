@@ -30,3 +30,17 @@ class Incubator:
         self.temperature = temperature
         self.last_mant = last_mant
         self.maples = maples or []
+
+    def to_dict(self):
+        """
+        Convierte el objeto de dominio en un diccionario.
+        """
+        return {
+            "id": self.id,
+            "name": self.name,
+            "capacity": self.capacity,
+            "status": self.status,
+            "temperature": self.temperature,
+            "last_mant": self.last_mant,
+            "maples": self.maples
+        }

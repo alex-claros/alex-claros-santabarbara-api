@@ -14,13 +14,13 @@ class IncubatorRepository(ABC):
         pass
 
     @abstractmethod
-    def find_by_id(self, incubator_id: str) -> Incubator:
-        """Busca una incubadora por su ID."""
+    def update(self, incubator: Incubator):
+        """Actualiza una incubadora existente."""
         pass
 
     @abstractmethod
-    def update(self, incubator: Incubator):
-        """Actualiza una incubadora existente."""
+    def find_by_id(self, incubator_id: str) -> Incubator:
+        """Busca una incubadora por su ID."""
         pass
 
     @abstractmethod
