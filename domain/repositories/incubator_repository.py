@@ -24,7 +24,7 @@ class IncubatorRepository(ABC):
         pass
 
     @abstractmethod
-    def delete(self, incubator_id: str):
+    def soft_delete(self, incubator_id: str):
         """Elimina una incubadora por su ID."""
         pass
 

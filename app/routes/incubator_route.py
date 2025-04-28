@@ -38,23 +38,19 @@ def create_incubator(incubator: IncubatorSchema):
 def update_incubator(incubator_id: str, updated_data: IncubatorUpdateSchema):
     try:
         incubator_domain = controller.update_incubator(incubator_id, updated_data.dict(exclude_unset=True))
-        
         incubator_dict = incubator_domain.to_dict()
         
         return IncubatorSchema(**incubator_dict)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.delete("/incubators/{incubator_id}")
-def delete_incubator(incubator_id: str):
-    """
-    Elimina una incubadora.
-    """
+@router.delete("/incubators/{incubator_id}", response_model=IncubatorUpdateSchema)
+def soft_delete_incubator(incubator_id: str):
     try:
-        # Llama al controlador para eliminar la incubadora
-        return controller.delete_incubator(incubator_id)
+        result = controller.soft_delete_incubator(incubator_id)
+        return result
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e))
 
 @router.post("/incubators/{incubator_id}/add-maple/", response_model=IncubatorSchema)
 def add_maple_to_incubator(incubator_id: str, maple: Maple):
