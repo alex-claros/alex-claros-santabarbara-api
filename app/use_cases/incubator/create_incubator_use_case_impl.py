@@ -16,5 +16,8 @@ class CreateIncubatorUseCaseImpl(CreateIncubatorUseCase):
             "status": incubator.status,
             "temperature": incubator.temperature,
             "last_mant": incubator.last_mant,
-            "maples": [] 
+            "maples": [],
+            "is_deleted": incubator.is_deleted,
+            "deleted_at": incubator.deleted_at
+
         }

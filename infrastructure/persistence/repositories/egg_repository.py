@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 from domain.repositories.egg_repository import EggRepository as IEggRepository
-from infrastructure.entities.egg import EggEntity
+from infrastructure.entities.egg_entity import EggEntity
 
 class SqlAlchemyEggRepository(IEggRepository):
     def __init__(self, session: sessionmaker):

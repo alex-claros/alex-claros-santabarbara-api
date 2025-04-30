@@ -6,7 +6,7 @@ from infrastructure.persistence.repositories.maple_repository import SqlAlchemyM
 from infrastructure.persistence.repositories.image_repository import ImageRepository
 from infrastructure.recognition.recognition import EggRecognitionModule
 from sqlalchemy.orm import sessionmaker
-from infrastructure.entities.egg import EggEntity
+from infrastructure.entities.egg_entity import EggEntity
 
 class EggController:
     def __init__(self, session: sessionmaker):

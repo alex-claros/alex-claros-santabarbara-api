@@ -37,7 +37,6 @@ class IncubatorRepositoryImpl(IncubatorRepository):
         if not entity:
             return False
         
-        # Actualizar los campos para soft-delete
         entity.update(
             is_deleted=True,
             deleted_at=datetime.now()
