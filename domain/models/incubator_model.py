@@ -49,7 +49,7 @@ class Incubator:
             "status": self.status,
             "temperature": self.temperature,
             "last_mant": self.last_mant,
-            "maples": self.maples,
+            "maples": [m.to_dict() for m in self.maples],
             "is_deleted": self.is_deleted,
             "deleted_at": self.deleted_at
         }

@@ -52,18 +52,18 @@ def soft_delete_incubator(incubator_id: str):
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-@router.post("/incubators/{incubator_id}/add-maple/", response_model=IncubatorSchema)
-def add_maple_to_incubator(incubator_id: str, maple: Maple):
-    """
-    Agrega un maple a una incubadora.
-    """
-    try:
-        # Convierte el modelo Pydantic a tu modelo de dominio
-        incubator_domain = controller.add_maple_to_incubator(incubator_id, maple)
-        # Retorna el resultado como un modelo Pydantic
-        return IncubatorSchema(**incubator_domain.__dict__)
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+# @router.post("/incubators/{incubator_id}/add-maple/", response_model=IncubatorSchema)
+# def add_maple_to_incubator(incubator_id: str, maple: Maple):
+#     """
+#     Agrega un maple a una incubadora.
+#     """
+#     try:
+#         # Convierte el modelo Pydantic a tu modelo de dominio
+#         incubator_domain = controller.add_maple_to_incubator(incubator_id, maple)
+#         # Retorna el resultado como un modelo Pydantic
+#         return IncubatorSchema(**incubator_domain.__dict__)
+#     except ValueError as e:
+#         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/incubators/{incubator_id}/non-viable-eggs/")
 def list_non_viable_eggs(incubator_id: str):

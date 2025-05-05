@@ -1,3 +1,4 @@
+from datetime import datetime
 from mongoengine import Document, StringField, IntField, ListField, ReferenceField, BooleanField, DateTimeField
 from domain.models.maple_model import Maple
 from infrastructure.entities.egg_entity import EggEntity
@@ -9,13 +10,12 @@ class MapleEntity(Document):
     status = StringField(default="Disponible")
     level = StringField(required=False)
     eggs = ListField(ReferenceField("EggEntity"))
-    load_date = DateTimeField(null=True)
+    load_date = DateTimeField(default=datetime.now())
     responsible = StringField(required=False)
     is_deleted = BooleanField(default=False)
     deleted_at = DateTimeField(null=True)
 
     def to_domain_model(self):
-        from infrastructure.entities.egg_entity import EggEntity
         return Maple(
             id=str(self.id),
             name=self.name,

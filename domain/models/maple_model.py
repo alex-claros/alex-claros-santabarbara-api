@@ -20,14 +20,7 @@ class Maple:
     ):
         """
         Representa un maple en el dominio del negocio.
-
-        :param id: ID único de la incubadora.
-        :param name: Nombre reconocible de la incubadora.
-        :param capacity: Capacidad máxima de maples.
-        :param status: Estado actual de la incubadora (funcionamiento, disponible, etc.).
-        :param temperature: Temperatura ideal de la incubadora.
-        :param last_mant: Última vez que se realizó mantenimiento.
-        :param maples: Lista de maples asociados a la incubadora.
+        
         """
         self.id = id if id else str(uuid.uuid4())
         self.name = name
@@ -50,7 +43,7 @@ class Maple:
             "capacity": self.capacity,
             "status": self.status,
             "level": self.level,
-            "eggs": self.eggs,
+            "eggs": [e.to_dict() for e in self.eggs],
             "load_date": self.load_date,
             "responsible": self.responsible,
             "is_deleted": self.is_deleted,

@@ -10,6 +10,6 @@ class MapleSchema(BaseModel):
     level: str
     eggs: Optional[list] = list
     load_date: datetime
-    responsible: str
+    responsible: Optional[str]
     is_deleted: bool = False
     deleted_at: Optional[datetime] = None

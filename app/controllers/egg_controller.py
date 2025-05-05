@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from domain.use_cases.detect_egg_viability_use_case import DetectEggViabilityUseCase
 from domain.use_cases.add_egg_to_maple_use_case import AddEggToMapleUseCase
 from infrastructure.persistence.repositories.egg_repository import SqlAlchemyEggRepository
-from infrastructure.persistence.repositories.maple_repository import SqlAlchemyMapleRepository
+from infrastructure.persistence.repositories.maple_repository_impl import MapleRepositoryImpl
 from infrastructure.persistence.repositories.image_repository import ImageRepository
 from infrastructure.recognition.recognition import EggRecognitionModule
 from sqlalchemy.orm import sessionmaker
@@ -26,7 +26,7 @@ class EggController:
 
     def add_egg_to_maple(self, egg_id: str, maple_id: str, position: int, image_path: str):
         egg_repository = SqlAlchemyEggRepository(self.session)
-        maple_repository = SqlAlchemyMapleRepository(self.session)
+        maple_repository = MapleRepositoryImpl(self.session)
         use_case = AddEggToMapleUseCase(egg_repository, maple_repository)
         
         try:

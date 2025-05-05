@@ -9,13 +9,23 @@ class MapleRepository(ABC):
         pass
 
     @abstractmethod
+    def find_all(self) -> List[Maple]:
+        """Lista todos los maples."""
+        pass
+
+    @abstractmethod
+    def update(self, maple: Maple):
+        """Actualiza un maple existente."""
+        pass
+
+    @abstractmethod
     def find_by_id(self, maple_id: str) -> Maple:
         """Busca un maple por su ID."""
         pass
 
     @abstractmethod
-    def find_all(self) -> List[Maple]:
-        """Lista todos los maples."""
+    def soft_delete(self, maple_id: str):
+        """Elimina una incubadora por su ID."""
         pass
 
     @abstractmethod

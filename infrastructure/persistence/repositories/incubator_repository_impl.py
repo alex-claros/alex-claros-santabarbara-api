@@ -30,9 +30,6 @@ class IncubatorRepositoryImpl(IncubatorRepository):
         return True
 
     def soft_delete(self, incubator_id: str) -> bool:
-        """
-        Realiza un soft-delete de una incubadora.
-        """
         entity = IncubatorEntity.objects(id=incubator_id).first()
         if not entity:
             return False
