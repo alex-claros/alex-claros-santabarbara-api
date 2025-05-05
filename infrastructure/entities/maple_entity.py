@@ -7,7 +7,7 @@ class MapleEntity(Document):
     id = StringField(primary_key=True)
     name = StringField(required=True)
     capacity = IntField(required=True)
-    status = StringField(default="Disponible")
+    status = StringField(default="Incubando")
     level = StringField(required=False)
     eggs = ListField(ReferenceField("EggEntity"))
     load_date = DateTimeField(default=datetime.now())
@@ -39,6 +39,7 @@ class MapleEntity(Document):
             level=maple.level,
             eggs=[EggEntity.from_domain_model(e) for e in maple.eggs],
             load_date=maple.load_date,
+            responsible=maple.responsible,
             is_deleted=maple.is_deleted,
             deleted_at=maple.deleted_at
         )
