@@ -1,22 +1,25 @@
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, Depends, HTTPException
 from app.controllers.egg_controller import EggController
-from core.database import init_db
-from sqlalchemy.orm import sessionmaker
+from domain.models.egg_model import Egg
+from infrastructure.schemas.egg_schema import EggSchema
+from pydantic import BaseModel
 
 router = APIRouter()
 
-@router.post("/add-egg-to-maple/")
-def add_egg_to_maple(
-    egg_id: str,
-    maple_id: str,
-    position: int,
-    image: UploadFile = File(...),
-    session=Depends(init_db)
-):
-    controller = EggController(session)
-    
-    with open(f"temp_{image.filename}", "wb") as f:
-        f.write(image.file.read())
-    
-    result = controller.add_egg_to_maple(egg_id, maple_id, position, f"temp_{image.filename}")
-    return result
+controller = EggController()
+
+@router.post("/eggs/", response_model=dict)
+def create_egg(egg_data: EggSchema):
+    try:
+        result = controller.create_egg(egg_data.dict())
+        return {"message": "Egg created successfully", "data": result}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/eggs/", response_model=list)
+def list_eggs():
+    try:
+        eggs = controller.list_eggs()
+        return eggs
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

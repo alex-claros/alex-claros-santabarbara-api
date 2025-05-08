@@ -1,39 +1,15 @@
-from fastapi import HTTPException
-from domain.use_cases.detect_egg_viability_use_case import DetectEggViabilityUseCase
-from domain.use_cases.add_egg_to_maple_use_case import AddEggToMapleUseCase
-from infrastructure.persistence.repositories.egg_repository import SqlAlchemyEggRepository
-from infrastructure.persistence.repositories.maple_repository_impl import MapleRepositoryImpl
-from infrastructure.persistence.repositories.image_repository import ImageRepository
-from infrastructure.recognition.recognition import EggRecognitionModule
-from sqlalchemy.orm import sessionmaker
-from infrastructure.entities.egg_entity import EggEntity
+from app.use_cases.egg.egg_analysis_use_case_impl import ImageClassificationUseCaseImpl
+from app.use_cases.egg.list_all_eggs_use_case_impl import ListAllEggsUseCaseImpl
+from infrastructure.persistence.repositories.egg_repository_impl import EggRepositoryImpl
 
 class EggController:
-    def __init__(self, session: sessionmaker):
-        self.session = session
-        self.image_repository = ImageRepository()
+    def __init__(self):
+        self.repository = EggRepositoryImpl()
+        self.create_egg_use_case = (self.repository)
+        self.list_eggs_use_case = ListAllEggsUseCaseImpl(self.repository)
 
-    def detect_viability(self, egg_id: str):
-        egg_repository = SqlAlchemyEggRepository(self.session)
-        cnn_model = EggRecognitionModule("path/to/model.h5")
-        use_case = DetectEggViabilityUseCase(egg_repository, cnn_model)
-        
-        try:
-            result = use_case.execute(egg_id)
-            return result
-        except ValueError as e:
-            raise HTTPException(status_code=404, detail=str(e))
+    def create_egg(self, egg_data: dict):
+        return self.create_egg_use_case.execute(egg_data)
 
-    def add_egg_to_maple(self, egg_id: str, maple_id: str, position: int, image_path: str):
-        egg_repository = SqlAlchemyEggRepository(self.session)
-        maple_repository = MapleRepositoryImpl(self.session)
-        use_case = AddEggToMapleUseCase(egg_repository, maple_repository)
-        
-        try:
-            image_url = self.image_repository.upload_image(image_path, f"{egg_id}.jpg")
-            
-            egg = EggEntity(id=egg_id, position=position, image_url=image_url)
-            result = use_case.execute(egg, maple_id)
-            return result
-        except ValueError as e:
-            raise HTTPException(status_code=404, detail=str(e))
+    def list_eggs(self):
+        return self.list_eggs_use_case.execute()

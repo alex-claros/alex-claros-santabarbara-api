@@ -38,7 +38,7 @@ def create_maple(maple: MapleSchema):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.put("maple/{maple_id}", response_model=MapleSchema)
+@router.put("/maple/{maple_id}", response_model=MapleSchema)
 def update_maple(maple_id: str, updated_data: MapleUpdateSchema):
     
     try:
@@ -49,7 +49,7 @@ def update_maple(maple_id: str, updated_data: MapleUpdateSchema):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.delete("maple/{maple_id}", response_model=MapleUpdateSchema)
+@router.delete("/maple/{maple_id}", response_model=MapleUpdateSchema)
 def soft_delete_maple(maple_id: str):
     try:
         result = controller.soft_delete_maple(maple_id)

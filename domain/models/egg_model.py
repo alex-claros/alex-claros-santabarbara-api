@@ -1,16 +1,37 @@
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel
+import uuid
 
-class Egg(BaseModel):
-    id: str
-    position: int  # Posición dentro del maple
-    viability: Optional[bool] = None  # True si es viable, False si no lo es
-    image_data: Optional[str] = None  # Datos de la imagen codificados en base64
-    colorimetry: Optional[float] = None  # Valor de colorimetría
-    structural_defects: Optional[bool] = None  # Indica si tiene defectos estructurales
+class Egg:
+    def __init__(
+        self,
+        position: str,
+        viability: bool,
+        image_url: str,
+        colorometry: str,
+        defects: str,
+        confidence: float,
+        id: str = None,
+    ):
+        
+        self.id = id if id else str(uuid.uuid4())
+        self.position = position
+        self.viability = viability
+        self.image_url = image_url
+        self.colorometry = colorometry
+        self.defects = defects
+        self.confidence = confidence
 
-    def is_viable(self) -> bool:
-        """Determina si el huevo es viable basado en reglas de negocio."""
-        if self.structural_defects or (self.colorimetry and self.colorimetry < 0.5):
-            return False
-        return True
+    def to_dict(self):
+        """
+        Convierte el objeto de dominio en un diccionario.
+        """
+        return {
+            "id": self.id,
+            "position": self.position,
+            "viability": self.viability,
+            "image_url": self.image_url,
+            "colorometry": self.colorometry,
+            "defects": self.defects,
+            "confidence": self.confidence,
+        }

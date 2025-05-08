@@ -17,8 +17,3 @@ class EggRepository(ABC):
     def find_all(self) -> List[Egg]:
         """Lista todos los huevos."""
         pass
-
-    @abstractmethod
-    def find_non_viable_eggs(self) -> List[Egg]:
-        """Lista todos los huevos no viables."""
-        pass

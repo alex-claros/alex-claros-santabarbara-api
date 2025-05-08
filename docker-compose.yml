@@ -40,6 +40,19 @@ services:
   #     MONGO_URI: mongodb://root:example@egg_detection_mongo:27017
   #     DATABASE_NAME: egg_viability_db
 
+  migrations-and-seeders:
+    build: .
+    container_name: egg_detection_migrations_and_seeders
+    depends_on:
+      - db
+    environment:
+      MONGO_URI: mongodb://root:example@egg_detection_mongo:27017
+      DATABASE_NAME: egg_viability_db
+    entrypoint: >
+      sh -c "python infrastructure/persistence/migrations/apply_migrations.py &&
+             python infrastructure/persistence/seeders/load_seeders.py"
+    restart: "no"
+
 volumes:
   mongo_data:
   minio_data:
