@@ -19,5 +19,4 @@ class CreateIncubatorUseCaseImpl(CreateIncubatorUseCase):
             "maples": [],
             "is_deleted": incubator.is_deleted,
             "deleted_at": incubator.deleted_at
-
         }

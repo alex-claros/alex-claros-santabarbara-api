@@ -1,12 +1,22 @@
 from inference_sdk import InferenceHTTPClient
+from tempfile import NamedTemporaryFile
+import shutil
 
 class RoboflowService:
-    def __init__(self, api_url, api_key, model_id):
-        self.client = InferenceHTTPClient(api_url=api_url, api_key=api_key)
-        self.model_id = model_id
+    def __init__(self):
+        self.client = InferenceHTTPClient(
+            api_url="https://serverless.roboflow.com",
+            api_key="PI30adxnYJwIM1J4euE6"
+        )
 
-    def predict(self, image_content):
-        """
-        Realiza inferencias usando el modelo de Roboflow.
-        """
-        return self.client.infer(image_content, model_id=self.model_id)
+    def analyze_image(self, image_content: bytes):
+        with NamedTemporaryFile(delete=False, suffix=".jpg") as tmp_file:
+            tmp_file.write(image_content)
+            tmp_file_path = tmp_file.name
+
+        try:
+            result = self.client.infer(tmp_file_path, model_id="santabarbara/3")
+            return result
+        finally:
+            import os
+            os.remove(tmp_file_path)

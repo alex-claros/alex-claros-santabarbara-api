@@ -1,14 +1,17 @@
-from mongoengine import Document, StringField, IntField, BooleanField, FloatField
+from mongoengine import Document, StringField, IntField, BooleanField, FloatField, DateTimeField
 from domain.models.egg_model import Egg
 
 class EggEntity(Document):
     id = StringField(primary_key=True)  # ID único del huevo
-    position = IntField()  # Posición dentro del maple
+    position = StringField()  # Posición dentro del maple
     viability = BooleanField()  # Viabilidad del huevo (True o False)
     image_url = StringField()  # URL de la imagen almacenada en MinIO
-    colorimetry = FloatField()  # Valor de colorimetría
+    colorometry = StringField()  # Valor de colorimetría
+    cracks = BooleanField()  # Indica si tiene grietas
+    deformities = BooleanField()  # Indica si tiene deformidades
     defects = StringField()  # Indica si tiene defectos estructurales
     confidence = FloatField()  # Referencia al maple al que pertenece
+    analyzed_at = DateTimeField() 
 
     def to_domain_model(self):
         return Egg(
@@ -16,9 +19,12 @@ class EggEntity(Document):
             position=self.position,
             viability=self.viability,
             image_url=self.image_url,
-            colorometry=self.colorimetry,
+            colorometry=self.colorometry,
+            cracks=self.cracks,
+            deformities=self.deformities,
             defects=self.defects,
             confidence=self.confidence,
+            analyzed_at=self.analyzed_at, 
         )
     
     @staticmethod
@@ -29,6 +35,9 @@ class EggEntity(Document):
             viability=egg.viability,
             image_url=egg.image_url,
             colorometry=egg.colorometry,
-            defect=egg.defects,
-            confidence=egg.confidence
+            cracks=egg.cracks,
+            deformities=egg.deformities,
+            defects=egg.defects,
+            confidence=egg.confidence,
+            analyzed_at=egg.analyzed_at
         )

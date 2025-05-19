@@ -11,5 +11,8 @@ class EggSchema(BaseModel):
     viability: bool
     image_url: str
     colorometry: str
+    cracks: bool
+    deformities: bool
     defects: str
     confidence: float
+    analyzed_at: datetime
