@@ -23,12 +23,12 @@ class CreateEggUseCaseImpl:
         detected_eggs = roboflow_response.get("predictions", [])
         print(f"Detected eggs: {detected_eggs}")
 
-        # Crear objetos Egg y guardar en MongoDB
+        saved_eggs = []
         for egg_data in detected_eggs:
             egg = Egg(
                 id=str(uuid4()),
                 position="Individual",  # Coordenadas como posición
-                viability=egg_data["class"] == "Healthy",  # Viabilidad según clase
+                viability=egg_data["class"] == "Healty",  # Viabilidad según clase
                 image_url=image_url,
                 colorometry="#DD12D",  # Valor por defecto
                 cracks=egg_data["class"] == "Damage",  # Asumimos que "Damage" implica grietas
@@ -38,5 +38,6 @@ class CreateEggUseCaseImpl:
                 analyzed_at=datetime.now()
             )
             self.repository.save(egg)
+            saved_eggs.append(egg.to_dict())
 
-        return egg
+        return saved_eggs

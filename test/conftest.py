@@ -1,9 +1,17 @@
 import pytest
-from mongoengine import connect, disconnect
-from mongomock import MongoClient
+from unittest.mock import MagicMock
+from domain.repositories.egg_repository import EggRepository
+from app.services.roboflow_service import RoboflowService
+from core.minio_client import MinioClient
 
-@pytest.fixture(scope="function")
-def mock_mongo():
-    connect("test_db", host="mongomock://localhost")
-    yield
-    disconnect()
+@pytest.fixture
+def mock_repository():
+    return MagicMock(spec=EggRepository)
+
+@pytest.fixture
+def mock_roboflow():
+    return MagicMock(spec=RoboflowService)
+
+@pytest.fixture
+def mock_minio():
+    return MagicMock(spec=MinioClient)

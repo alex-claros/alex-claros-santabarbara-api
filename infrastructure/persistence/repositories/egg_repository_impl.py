@@ -8,6 +8,10 @@ class EggRepositoryImpl(EggRepository):
         entity = EggEntity.from_domain_model(egg)
         entity.save()
 
+    def find_all(self) -> List[Egg]:
+        entities = EggEntity.objects()
+        return [entity.to_domain_model() for entity in entities]
+
     def find_by_maple_id(self, maple_id: str) -> List[Egg]:
         entities = EggEntity.objects(maple_id=maple_id)
         return [entity.to_domain_model() for entity in entities]
