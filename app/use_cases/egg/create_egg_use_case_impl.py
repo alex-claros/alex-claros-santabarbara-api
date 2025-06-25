@@ -13,10 +13,9 @@ class CreateEggUseCaseImpl:
 
     def execute(self, image_content: bytes):
         """
-        Procesa una imagen y guarda los huevos detectados en el maple correspondiente.
+        Procesa una imagen y guarda los huevos detectados.
         """
         image_url = self.minio_client.upload_image(image_content)
-
         print(f"Image uploaded to MinIO: {image_url}")
 
         roboflow_response = self.roboflow_service.analyze_image(image_content)
@@ -27,13 +26,13 @@ class CreateEggUseCaseImpl:
         for egg_data in detected_eggs:
             egg = Egg(
                 id=str(uuid4()),
-                position="Individual",  # Coordenadas como posición
-                viability=egg_data["class"] == "Healty",  # Viabilidad según clase
+                position="Individual",
+                viability=egg_data["class"] == "Egg",
                 image_url=image_url,
-                colorometry="#DD12D",  # Valor por defecto
-                cracks=egg_data["class"] == "Damage",  # Asumimos que "Damage" implica grietas
-                deformities=False,  # No detectado por el modelo
-                defects=egg_data.get("defects", "unknown"),  # Campo no proporcionado
+                colorometry="#DD12D",
+                cracks=egg_data["class"] == "Damage",
+                deformities=False,
+                defects=egg_data.get("defects", "unknown"),
                 confidence=egg_data["confidence"],
                 analyzed_at=datetime.now()
             )

@@ -1,7 +1,7 @@
 from typing import List
 import cv2
 import numpy as np
-from infrastructure.entities.calibration import ColorCalibrationParameters
+from infrastructure.entities.calibration_entity import ColorCalibrationParameters
 
 class ColorCalibrationAdapter:
     def apply_calibration(self, image: np.ndarray, params: ColorCalibrationParameters) -> np.ndarray:

@@ -10,4 +10,4 @@ def test_analyze_image(mocker):
     mock_client.assert_called_once()
     args, kwargs = mock_client.call_args
     assert isinstance(args[0], str)
-    assert kwargs['model_id'] == "santabarbara/3"
+    assert kwargs['model_id'] == "santabarbara/4"

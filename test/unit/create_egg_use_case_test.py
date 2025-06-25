@@ -31,7 +31,7 @@ def roboflow_response():
     return {
         "predictions": [
             {
-                "class": "Healty",
+                "class": "Egg",
                 "confidence": 0.95,
                 "x": 100,
                 "y": 200,
@@ -80,7 +80,7 @@ def test_execute_multiple_eggs(use_case, mock_repository, mock_roboflow, mock_mi
     # Mock con múltiples huevos
     mock_roboflow.analyze_image.return_value = {
         "predictions": [
-            {"class": "Healty", "confidence": 0.9, "x": 10, "y": 20},
+            {"class": "Egg", "confidence": 0.9, "x": 10, "y": 20},
             {"class": "Damage", "confidence": 0.85, "x": 30, "y": 40}
         ]
     }

@@ -1,6 +1,6 @@
 from typing import List
 from infrastructure.camera.camera_calibration import ColorCalibrationAdapter
-from infrastructure.entities.calibration import ColorCalibrationParameters
+from infrastructure.entities.calibration_entity import ColorCalibrationParameters
 import cv2
 import numpy as np
 

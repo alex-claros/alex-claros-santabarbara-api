@@ -15,7 +15,7 @@ class RoboflowService:
             tmp_file_path = tmp_file.name
 
         try:
-            result = self.client.infer(tmp_file_path, model_id="santabarbara/3")
+            result = self.client.infer(tmp_file_path, model_id="santabarbara/4")
             return result
         finally:
             import os
